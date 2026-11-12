@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>be-spex packages</title>
+<style>
+  :root { color-scheme: light dark; --bg: #f8f9fa; --fg: #24292f; --muted: #57606a; --line: #d0d7de; --code: #eef1f4; --accent: #0969da; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #1e1e1e; --fg: #d4d4d4; --muted: #9da5ae; --line: #3a3f45; --code: #2a2d31; --accent: #539bf5; } }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", system-ui, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 40px 16px 64px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  h2 { font-size: 18px; margin: 36px 0 8px; }
+  p.lead { color: var(--muted); margin: 0 0 8px; }
+  a { color: var(--accent); }
+  pre { background: var(--code); border-radius: 8px; padding: 12px 14px; overflow-x: auto; font: 13px/1.55 ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace; }
+  code { font: 13px ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; }
+  td:last-child { color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>be-spex packages</h1>
+  <p class="lead">APT repository for the be-spex applications on current Debian, Ubuntu and Linux Mint (amd64; HatRack also arm64).</p>
+
+  <h2>Set up once</h2>
+  <pre>curl -fsSLO https://be-spex.github.io/packages/be-spex-archive-keyring.deb
+sudo apt install ./be-spex-archive-keyring.deb
+sudo apt update</pre>
+  <p>The package installs the signing key to <code>/usr/share/keyrings/</code> and the source
+    <code>/etc/apt/sources.list.d/be-spex.sources</code>. After that, updates arrive with <code>sudo apt upgrade</code>.</p>
+
+  <h2>Install</h2>
+  <pre>sudo apt install marq xaq maillet hatrack pockettray   # any of them</pre>
+
+  <h2>Manual setup</h2>
+  <pre>curl -fsSL https://be-spex.github.io/packages/be-spex-archive-keyring.gpg \
+  | sudo tee /usr/share/keyrings/be-spex-archive-keyring.gpg &gt;/dev/null
+sudo tee /etc/apt/sources.list.d/be-spex.sources &lt;&lt;'EOF'
+Types: deb
+URIs: https://be-spex.github.io/packages
+Suites: stable
+Components: main
+Signed-By: /usr/share/keyrings/be-spex-archive-keyring.gpg
+EOF
+sudo apt update</pre>
+
+  <h2>Packages</h2>
+  <table>
+    <thead><tr><th>Package</th><th>Version</th><th>Arch</th><th></th></tr></thead>
+    <tbody>
+@ROWS@
+    </tbody>
+  </table>
+  <p class="lead" style="margin-top:24px">AppImages (with built-in updates) are attached to each application's GitHub release.
+    Source: <a href="https://github.com/be-spex">github.com/be-spex</a>.</p>
+</main>
+</body>
+</html>

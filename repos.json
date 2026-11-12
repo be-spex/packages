@@ -1,0 +1,7 @@
+[
+  { "repo": "be-spex/Marq",       "packages": ["marq"] },
+  { "repo": "be-spex/Xaq",        "packages": ["xaq"] },
+  { "repo": "be-spex/Maillet",    "packages": ["maillet"] },
+  { "repo": "be-spex/HatRack",    "packages": ["hatrack"] },
+  { "repo": "be-spex/PocketTray", "packages": ["pockettray"] }
+]

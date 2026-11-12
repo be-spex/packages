@@ -1,0 +1,5 @@
+Types: deb
+URIs: https://be-spex.github.io/packages
+Suites: stable
+Components: main
+Signed-By: /usr/share/keyrings/be-spex-archive-keyring.gpg

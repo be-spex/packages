@@ -1,0 +1,75 @@
+name: Publish
+
+# Builds the signed APT repository from the releases of the apps listed in
+# repos.json and deploys it to GitHub Pages (https://be-spex.github.io/packages).
+# The schedule picks up new releases; it rebuilds only when state.txt (the
+# release assets and this repository's inputs) differs from the published one.
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    outputs:
+      changed: ${{ steps.state.outputs.changed }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Compare with the published state
+        id: state
+        run: |
+          scripts/state.sh > "$RUNNER_TEMP/state.txt"
+          if [ "$GITHUB_EVENT_NAME" = schedule ] &&
+             curl -fsS https://be-spex.github.io/packages/state.txt | cmp -s - "$RUNNER_TEMP/state.txt"; then
+            echo "Nothing new."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Import signing key
+        if: steps.state.outputs.changed == 'true'
+        env:
+          APT_SIGNING_KEY: ${{ secrets.APT_SIGNING_KEY }}
+        run: |
+          export GNUPGHOME="$RUNNER_TEMP/gnupg"
+          mkdir -m 700 "$GNUPGHOME"
+          printf '%s\n' "$APT_SIGNING_KEY" | gpg --batch --import
+          echo "GNUPGHOME=$GNUPGHOME" >> "$GITHUB_ENV"
+
+      - name: Build repository
+        if: steps.state.outputs.changed == 'true'
+        run: |
+          sudo apt-get update && sudo apt-get install -y apt-utils
+          OUT=public scripts/build.sh
+
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.state.outputs.changed == 'true'
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.changed == 'true'
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
