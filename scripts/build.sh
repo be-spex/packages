@@ -6,8 +6,10 @@
 #   dists/stable/main/binary-{amd64,arm64}/Packages(.gz)
 #   be-spex-archive-keyring.{deb,gpg,asc}, index.html, state.txt
 #
-# Packages come from the newest $KEEP stable releases of each repository in
-# repos.json; only package names listed there are taken. Signing uses the
+# Packages come from the newest $KEEP stable releases of each entry in
+# repos.json; only package names listed there are taken. A repository that
+# releases several applications has one entry per application, told apart by
+# the prefix of its release tags ("tagPrefix"). Signing uses the
 # secret key in $GNUPGHOME (fingerprint $SIGNING_KEY, else the only one).
 # Needs: gh (authenticated), jq, dpkg-deb, apt-ftparchive, gpg.
 set -euo pipefail
@@ -38,9 +40,10 @@ add_to_pool() {
 # 1. App packages from the releases.
 jq -c '.[]' repos.json | while read -r entry; do
     repo=$(jq -r .repo <<<"$entry")
-    echo "$repo"
-    gh api "repos/$repo/releases?per_page=30" --jq \
-        "[.[] | select(.draft | not) | select(.prerelease | not)] | .[:$KEEP][] | .tag_name" |
+    prefix=$(jq -r '.tagPrefix // ""' <<<"$entry")
+    echo "$repo $prefix"
+    gh api "repos/$repo/releases?per_page=100" --jq \
+        "[.[] | select(.draft | not) | select(.prerelease | not) | select(.tag_name | startswith(\"$prefix\"))] | .[:$KEEP][] | .tag_name" |
     while read -r tag; do
         dl="$work/dl/$repo/$tag"
         mkdir -p "$dl"
@@ -110,7 +113,7 @@ sign --clearsign -o "$dist/InRelease" "$dist/Release"
 sign --armor --detach-sign -o "$dist/Release.gpg" "$dist/Release"
 
 # 4. Landing page and state.
-repo_of=$(jq -r '.[] | .repo as $r | .packages[] | "\(.)\t\($r)"' repos.json)
+repo_of=$(jq -r '.[] | (.repo + (if .path then "/tree/main/" + .path else "" end)) as $r | .packages[] | "\(.)\t\($r)"' repos.json)
 rows=$(cd "$OUT" && apt-ftparchive packages pool 2>/dev/null |
     awk -F': ' '/^Package:/ {p=$2} /^Version:/ {v=$2} /^Architecture:/ {a=$2}
                 /^$/ {if (p) print p "\t" v "\t" a; p=v=a=""}' |

@@ -1,6 +1,7 @@
 [
-  { "repo": "be-spex/Marq",       "packages": ["marq"] },
-  { "repo": "be-spex/Xaq",        "packages": ["xaq"] },
+  { "repo": "be-spex/Qiew", "tagPrefix": "marq-v", "path": "apps/marq", "packages": ["marq"] },
+  { "repo": "be-spex/Qiew", "tagPrefix": "xaq-v",  "path": "apps/xaq",  "packages": ["xaq"] },
+  { "repo": "be-spex/Qiew", "tagPrefix": "jayq-v", "path": "apps/jayq", "packages": ["jayq"] },
   { "repo": "be-spex/Maillet",    "packages": ["maillet"] },
   { "repo": "be-spex/HatRack",    "packages": ["hatrack"] },
   { "repo": "be-spex/PocketTray", "packages": ["pockettray"] }

@@ -1,15 +1,15 @@
 #!/bin/bash
 # Prints what the repository is built from: the release assets taken from
-# each app (newest $KEEP stable releases) and a hash of this repository's own
+# each app (newest $KEEP stable releases with its tag prefix) and a hash of this repository's own
 # inputs. The workflow compares it with the published state.txt and only
 # rebuilds when something changed.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 KEEP=${KEEP:-3}
 
-jq -r '.[].repo' repos.json | while read -r repo; do
-    gh api "repos/$repo/releases?per_page=30" --jq \
-        "[.[] | select(.draft | not) | select(.prerelease | not)] | .[:$KEEP][]
+jq -r '.[] | "\(.repo) \(.tagPrefix // "")"' repos.json | while read -r repo prefix; do
+    gh api "repos/$repo/releases?per_page=100" --jq \
+        "[.[] | select(.draft | not) | select(.prerelease | not) | select(.tag_name | startswith(\"$prefix\"))] | .[:$KEEP][]
          | .tag_name as \$tag | .assets[] | select(.name | endswith(\".deb\"))
          | \"$repo \(\$tag) \(.name) \(.updated_at)\""
 done
