@@ -12,6 +12,7 @@
   h1 { font-size: 26px; margin: 0 0 4px; }
   h2 { font-size: 18px; margin: 36px 0 8px; }
   p.lead { color: var(--muted); margin: 0 0 8px; }
+  p.back { margin: 0 0 20px; font-size: 14px; }
   a { color: var(--accent); }
   pre { background: var(--code); border-radius: 8px; padding: 12px 14px; overflow-x: auto; font: 13px/1.55 ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace; }
   code { font: 13px ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace; }
@@ -23,6 +24,7 @@
 </head>
 <body>
 <main>
+  <p class="back"><a href="https://be-spex.github.io/">← be spex: the apps</a></p>
   <h1>be-spex packages</h1>
   <p class="lead">APT repository for the be-spex applications on current Debian, Ubuntu and Linux Mint (amd64; HatRack also arm64).</p>
 
@@ -34,7 +36,7 @@ sudo apt update</pre>
     <code>/etc/apt/sources.list.d/be-spex.sources</code>. After that, updates arrive with <code>sudo apt upgrade</code>.</p>
 
   <h2>Install</h2>
-  <pre>sudo apt install marq xaq maillet hatrack pockettray   # any of them</pre>
+  <pre>sudo apt install marq xaq jayq maillet hatrack pockettray   # any of them</pre>
 
   <h2>Manual setup</h2>
   <pre>curl -fsSL https://be-spex.github.io/packages/be-spex-archive-keyring.gpg \
@@ -56,7 +58,7 @@ sudo apt update</pre>
 @ROWS@
     </tbody>
   </table>
-  <p class="lead" style="margin-top:24px">AppImages (with built-in updates) are attached to each application's GitHub release.
+  <p class="lead" style="margin-top:24px">AppImages (with built-in updates) are attached to each application's GitHub release; what each app does is on <a href="https://be-spex.github.io/">be-spex.github.io</a>.
     Source: <a href="https://github.com/be-spex">github.com/be-spex</a>.</p>
 </main>
 </body>
