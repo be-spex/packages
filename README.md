@@ -1,7 +1,10 @@
-# be-spex packages
+# be spex packages
 
-Signed APT repository for the be-spex applications, published at
-**https://be-spex.github.io/packages** – setup instructions are on that page.
+**The signed APT repository for all be spex apps.**
+
+Add it once, then install and update the apps with `apt`. Setup instructions are on the page.
+
+**Website:** https://be-spex.github.io/packages/ · part of [be spex](https://be-spex.github.io) – small, focused apps for Linux
 
 | Package | Source |
 |---|---|
