@@ -8,7 +8,7 @@ Add it once, then install and update the apps with `apt`. Setup instructions are
 
 | Package | Source |
 |---|---|
-| `marq`, `xaq`, `jayq` | [be-spex/Qiew](https://github.com/be-spex/Qiew) (one repository, releases tagged `<app>-v<version>`) |
+| `marq`, `xaq`, `jayq`, `tusq` | [be-spex/Qiew](https://github.com/be-spex/Qiew) (one repository, releases tagged `<app>-v<version>`) |
 | `maillet` | [be-spex/Maillet](https://github.com/be-spex/Maillet) |
 | `hatrack` | [be-spex/HatRack](https://github.com/be-spex/HatRack) (amd64, arm64) |
 | `pockettray` | [be-spex/PocketTray](https://github.com/be-spex/PocketTray) |
