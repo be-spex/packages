@@ -1,0 +1,71 @@
+#!/bin/sh
+# Makes the installed Qiew viewers the default apps for their files, all in one
+# step instead of each viewer asking on its first start. Only the desktop
+# configuration of the calling user is changed (~/.config/mimeapps.list via
+# xdg-mime, through each viewer's own --register-default).
+set -u
+
+usage() {
+    cat <<USAGE
+Usage: qiew-setup [-y] [viewer...]
+
+Makes the installed Qiew viewers the default apps for their files.
+Without names: every viewer of the qiew package that is installed.
+
+  -y          do not ask first
+  -h, --help  this text
+USAGE
+}
+
+yes=
+while [ $# -gt 0 ]; do
+    case $1 in
+        -y) yes=1 ;;
+        -h|--help) usage; exit 0 ;;
+        -*) usage >&2; exit 2 ;;
+        *) break ;;
+    esac
+    shift
+done
+
+# Run as root it would set root's defaults, not the user's
+if [ "$(id -u)" = 0 ]; then
+    echo "qiew-setup: run it as your own user, not with sudo" >&2
+    exit 1
+fi
+
+# The package's own list, so this script never falls behind it
+if [ $# -gt 0 ]; then
+    wanted=$*
+else
+    wanted=$(dpkg-query -W -f='${Recommends}' qiew 2>/dev/null | tr ',' '\n' | awk '{print $1}')
+fi
+apps=
+for app in $wanted; do
+    if command -v "$app" >/dev/null 2>&1; then
+        apps="$apps $app"
+    else
+        echo "  $app is not installed, skipped"
+    fi
+done
+if [ -z "$apps" ]; then
+    echo "qiew-setup: no Qiew viewer installed" >&2
+    exit 1
+fi
+
+if [ -z "$yes" ]; then
+    echo "These viewers will open their files from now on, replacing the apps that do so far:"
+    echo " $apps"
+    printf "Go ahead? [Y/n] "
+    read -r answer || answer=n
+    case $answer in
+        ""|[YyJj]*) ;;
+        *) echo "Nothing changed."; exit 0 ;;
+    esac
+fi
+
+failed=0
+for app in $apps; do
+    "$app" --register-default || failed=1
+done
+exit $failed

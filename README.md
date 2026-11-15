@@ -12,6 +12,7 @@ Add it once, then install and update the apps with `apt`. Setup instructions are
 | `maillet` | [be-spex/Maillet](https://github.com/be-spex/Maillet) |
 | `hatrack` | [be-spex/HatRack](https://github.com/be-spex/HatRack) (amd64, arm64) |
 | `pockettray` | [be-spex/PocketTray](https://github.com/be-spex/PocketTray) |
+| `qiew` | this repository ([`qiew/`](qiew/)): metapackage that recommends every Qiew viewer, with `qiew-setup` |
 | `be-spex-archive-keyring` | this repository: signing key and APT source |
 
 ## How it works
@@ -33,3 +34,6 @@ packages, adds the keyring package, writes the indices with `apt-ftparchive`, si
 - **Build locally:** `GNUPGHOME=<keyring with the secret key> OUT=/tmp/apt scripts/build.sh`
   (needs `gh`, `jq`, `dpkg-deb`, `apt-ftparchive`, `gpg`).
 - **Keyring package:** bump `keyring/VERSION` when the key or the source changes.
+- **qiew metapackage:** a new Qiew viewer goes into `Recommends` in [`qiew/control`](qiew/control)
+  as well, together with a higher `Version` there, so `apt upgrade` brings it to everyone who has
+  the set. The build stops if that list and the Qiew entries in `repos.json` differ.

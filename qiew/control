@@ -1,0 +1,15 @@
+Package: qiew
+Version: 1.0
+Architecture: all
+Maintainer: Bert Speckels <skrrytch@speckels.net>
+Section: utils
+Priority: optional
+Homepage: https://github.com/be-spex/Qiew
+Recommends: marq, xaq, jayq, trisq, hyqe, cusq, dirq, maiqe
+Description: all Qiew viewers in one go
+ Installs every Qiew viewer (Markdown, XML, JSON, HTML, CSV, Mermaid, TSX/JSX,
+ diffs) and keeps the set complete: a viewer added later arrives with the
+ next upgrade. Any of them can be removed on its own.
+ .
+ qiew-setup makes the installed viewers the default apps for their files in
+ one step, instead of each viewer asking on its first start.

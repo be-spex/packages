@@ -6,6 +6,9 @@
 #   dists/stable/main/binary-{amd64,arm64}/Packages(.gz)
 #   be-spex-archive-keyring.{deb,gpg,asc}, index.html, state.txt
 #
+# Besides the app packages it builds two of its own: the keyring and the qiew
+# metapackage (qiew/).
+#
 # Packages come from the newest $KEEP stable releases of each entry in
 # repos.json; only package names listed there are taken. A repository that
 # releases several applications has one entry per application, told apart by
@@ -89,7 +92,25 @@ cp "$work/$NAME.deb" "$OUT/$NAME.deb"
 cp "$root/usr/share/keyrings/$NAME.gpg" "$OUT/$NAME.gpg"
 cp keys/$NAME.asc "$OUT/$NAME.asc"
 
-# 3. Indices and the signed Release file.
+# 3. The qiew metapackage: recommends every Qiew viewer, brings qiew-setup.
+# Its list must name only packages this repository has, or apt cannot install it.
+echo "qiew"
+listed=$(jq -r '.[] | select(.repo == "be-spex/Qiew") | .packages[]' repos.json | sort)
+recommended=$(sed -n 's/^Recommends: //p' qiew/control | tr ',' '\n' | awk '{print $1}' | sort)
+if [ "$listed" != "$recommended" ]; then
+    echo "qiew/control Recommends differs from the Qiew apps in repos.json:" >&2
+    diff <(echo "$recommended") <(echo "$listed") >&2 || true
+    exit 1
+fi
+root="$work/qiew"
+mkdir -p "$root/DEBIAN" "$root/usr/bin"
+cp qiew/control "$root/DEBIAN/control"
+install -m 755 qiew/qiew-setup "$root/usr/bin/qiew-setup"
+find "$root" -type d -exec chmod 755 {} +
+dpkg-deb --root-owner-group --build "$root" "$work/qiew.deb" >/dev/null
+add_to_pool "$work/qiew.deb"
+
+# 4. Indices and the signed Release file.
 dist="$OUT/dists/$SUITE"
 for arch in $ARCHS; do
     mkdir -p "$dist/main/binary-$arch"
@@ -112,7 +133,7 @@ sign() { gpg --batch --yes --pinentry-mode loopback --passphrase '' --local-user
 sign --clearsign -o "$dist/InRelease" "$dist/Release"
 sign --armor --detach-sign -o "$dist/Release.gpg" "$dist/Release"
 
-# 4. Landing page and state.
+# 5. Landing page and state.
 repo_of=$(jq -r '.[] | (.repo + (if .path then "/tree/main/" + .path else "" end)) as $r | .packages[] | "\(.)\t\($r)"' repos.json)
 rows=$(cd "$OUT" && apt-ftparchive packages pool 2>/dev/null |
     awk -F': ' '/^Package:/ {p=$2} /^Version:/ {v=$2} /^Architecture:/ {a=$2}
