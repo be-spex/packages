@@ -4,14 +4,14 @@
 
 Add it once, then install and update the apps with `apt`. Setup instructions are on the page.
 
-**Website:** https://be-spex.github.io/packages/ · part of [be spex](https://be-spex.github.io) – small, focused apps for Linux
+**Website:** https://bespex.github.io/packages/ · part of [be spex](https://bespex.github.io) – small, focused apps for Linux
 
 | Package | Source |
 |---|---|
-| `marq`, `xaq`, `jayq`, `trisq`, `hyqe`, `cusq`, `dirq`, `maiqe` | [be-spex/Qiew](https://github.com/be-spex/Qiew) (one repository, releases tagged `<app>-v<version>`) |
-| `maillet` | [be-spex/Maillet](https://github.com/be-spex/Maillet) |
-| `hatrack` | [be-spex/HatRack](https://github.com/be-spex/HatRack) (amd64, arm64) |
-| `pockettray` | [be-spex/PocketTray](https://github.com/be-spex/PocketTray) |
+| `marq`, `xaq`, `jayq`, `trisq`, `hyqe`, `cusq`, `dirq`, `maiqe` | [bespex/Qiew](https://github.com/bespex/Qiew) (one repository, releases tagged `<app>-v<version>`) |
+| `maillet` | [bespex/Maillet](https://github.com/bespex/Maillet) |
+| `hatrack` | [bespex/HatRack](https://github.com/bespex/HatRack) (amd64, arm64) |
+| `pockettray` | [bespex/PocketTray](https://github.com/bespex/PocketTray) |
 | `qiew` | this repository ([`qiew/`](qiew/)): metapackage that recommends every Qiew viewer, with `qiew-setup` |
 | `be-spex-archive-keyring` | this repository: signing key and APT source |
 

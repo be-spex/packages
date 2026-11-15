@@ -78,9 +78,9 @@ Architecture: all
 Maintainer: Bert Speckels <skrrytch@speckels.net>
 Section: misc
 Priority: optional
-Homepage: https://be-spex.github.io/packages/
+Homepage: https://bespex.github.io/packages/
 Description: APT source and signing key of the be-spex packages
- Adds https://be-spex.github.io/packages to APT and installs the key that
+ Adds https://bespex.github.io/packages to APT and installs the key that
  signs it, so the be-spex applications (Marq, Xaq, Maillet, HatRack,
  PocketTray) can be installed and updated with apt.
 EOF
@@ -95,7 +95,7 @@ cp keys/$NAME.asc "$OUT/$NAME.asc"
 # 3. The qiew metapackage: recommends every Qiew viewer, brings qiew-setup.
 # Its list must name only packages this repository has, or apt cannot install it.
 echo "qiew"
-listed=$(jq -r '.[] | select(.repo == "be-spex/Qiew") | .packages[]' repos.json | sort)
+listed=$(jq -r '.[] | select(.repo == "bespex/Qiew") | .packages[]' repos.json | sort)
 recommended=$(sed -n 's/^Recommends: //p' qiew/control | tr ',' '\n' | awk '{print $1}' | sort)
 if [ "$listed" != "$recommended" ]; then
     echo "qiew/control Recommends differs from the Qiew apps in repos.json:" >&2

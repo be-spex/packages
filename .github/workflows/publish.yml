@@ -1,7 +1,7 @@
 name: Publish
 
 # Builds the signed APT repository from the releases of the apps listed in
-# repos.json and deploys it to GitHub Pages (https://be-spex.github.io/packages).
+# repos.json and deploys it to GitHub Pages (https://bespex.github.io/packages).
 # The schedule picks up new releases; it rebuilds only when state.txt (the
 # release assets and this repository's inputs) differs from the published one.
 on:
@@ -35,7 +35,7 @@ jobs:
         run: |
           scripts/state.sh > "$RUNNER_TEMP/state.txt"
           if [ "$GITHUB_EVENT_NAME" = schedule ] &&
-             curl -fsS https://be-spex.github.io/packages/state.txt | cmp -s - "$RUNNER_TEMP/state.txt"; then
+             curl -fsS https://bespex.github.io/packages/state.txt | cmp -s - "$RUNNER_TEMP/state.txt"; then
             echo "Nothing new."
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else

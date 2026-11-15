@@ -24,12 +24,12 @@
 </head>
 <body>
 <main>
-  <p class="back"><a href="https://be-spex.github.io/">← be spex: the apps</a></p>
+  <p class="back"><a href="https://bespex.github.io/">← be spex: the apps</a></p>
   <h1>be-spex packages</h1>
   <p class="lead">APT repository for the be-spex applications on current Debian, Ubuntu and Linux Mint (amd64; HatRack also arm64).</p>
 
   <h2>Set up once</h2>
-  <pre>curl -fsSLO https://be-spex.github.io/packages/be-spex-archive-keyring.deb
+  <pre>curl -fsSLO https://bespex.github.io/packages/be-spex-archive-keyring.deb
 sudo apt install ./be-spex-archive-keyring.deb
 sudo apt update</pre>
   <p>The package installs the signing key to <code>/usr/share/keyrings/</code> and the source
@@ -42,11 +42,11 @@ sudo apt update</pre>
 qiew-setup</pre>
 
   <h2>Manual setup</h2>
-  <pre>curl -fsSL https://be-spex.github.io/packages/be-spex-archive-keyring.gpg \
+  <pre>curl -fsSL https://bespex.github.io/packages/be-spex-archive-keyring.gpg \
   | sudo tee /usr/share/keyrings/be-spex-archive-keyring.gpg &gt;/dev/null
 sudo tee /etc/apt/sources.list.d/be-spex.sources &lt;&lt;'EOF'
 Types: deb
-URIs: https://be-spex.github.io/packages
+URIs: https://bespex.github.io/packages
 Suites: stable
 Components: main
 Architectures: amd64 arm64
@@ -61,8 +61,8 @@ sudo apt update</pre>
 @ROWS@
     </tbody>
   </table>
-  <p class="lead" style="margin-top:24px">AppImages (with built-in updates) are attached to each application's GitHub release; what each app does is on <a href="https://be-spex.github.io/">be-spex.github.io</a>.
-    Source: <a href="https://github.com/be-spex">github.com/be-spex</a>.</p>
+  <p class="lead" style="margin-top:24px">AppImages (with built-in updates) are attached to each application's GitHub release; what each app does is on <a href="https://bespex.github.io/">bespex.github.io</a>.
+    Source: <a href="https://github.com/bespex">github.com/bespex</a>.</p>
 </main>
 </body>
 </html>

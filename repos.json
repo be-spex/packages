@@ -1,13 +1,13 @@
 [
-  { "repo": "be-spex/Qiew", "tagPrefix": "marq-v", "path": "apps/marq", "packages": ["marq"] },
-  { "repo": "be-spex/Qiew", "tagPrefix": "xaq-v",  "path": "apps/xaq",  "packages": ["xaq"] },
-  { "repo": "be-spex/Qiew", "tagPrefix": "jayq-v", "path": "apps/jayq", "packages": ["jayq"] },
-  { "repo": "be-spex/Qiew", "tagPrefix": "trisq-v", "path": "apps/trisq", "packages": ["trisq"] },
-  { "repo": "be-spex/Qiew", "tagPrefix": "hyqe-v", "path": "apps/hyqe", "packages": ["hyqe"] },
-  { "repo": "be-spex/Qiew", "tagPrefix": "cusq-v", "path": "apps/cusq", "packages": ["cusq"] },
-  { "repo": "be-spex/Qiew", "tagPrefix": "dirq-v", "path": "apps/dirq", "packages": ["dirq"] },
-  { "repo": "be-spex/Qiew", "tagPrefix": "maiqe-v", "path": "apps/maiqe", "packages": ["maiqe"] },
-  { "repo": "be-spex/Maillet",    "packages": ["maillet"] },
-  { "repo": "be-spex/HatRack",    "packages": ["hatrack"] },
-  { "repo": "be-spex/PocketTray", "packages": ["pockettray"] }
+  { "repo": "bespex/Qiew", "tagPrefix": "marq-v", "path": "apps/marq", "packages": ["marq"] },
+  { "repo": "bespex/Qiew", "tagPrefix": "xaq-v",  "path": "apps/xaq",  "packages": ["xaq"] },
+  { "repo": "bespex/Qiew", "tagPrefix": "jayq-v", "path": "apps/jayq", "packages": ["jayq"] },
+  { "repo": "bespex/Qiew", "tagPrefix": "trisq-v", "path": "apps/trisq", "packages": ["trisq"] },
+  { "repo": "bespex/Qiew", "tagPrefix": "hyqe-v", "path": "apps/hyqe", "packages": ["hyqe"] },
+  { "repo": "bespex/Qiew", "tagPrefix": "cusq-v", "path": "apps/cusq", "packages": ["cusq"] },
+  { "repo": "bespex/Qiew", "tagPrefix": "dirq-v", "path": "apps/dirq", "packages": ["dirq"] },
+  { "repo": "bespex/Qiew", "tagPrefix": "maiqe-v", "path": "apps/maiqe", "packages": ["maiqe"] },
+  { "repo": "bespex/Maillet",    "packages": ["maillet"] },
+  { "repo": "bespex/HatRack",    "packages": ["hatrack"] },
+  { "repo": "bespex/PocketTray", "packages": ["pockettray"] }
 ]
