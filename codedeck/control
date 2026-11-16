@@ -1,0 +1,18 @@
+Package: codedeck
+Version: 1.0
+Architecture: all
+Maintainer: Bert Speckels <skrrytch@speckels.net>
+Section: devel
+Priority: optional
+Homepage: https://github.com/bespex/CodeDeck
+Depends: codeck
+Recommends: marq, dirq, jayq
+Description: CodeDeck with everything it works with
+ CodeDeck runs beside your AI coding sessions: it shows what each session is
+ doing and what it changed, keeps a snapshot before every turn to go back to,
+ and attaches exactly what you choose to your next prompt. The program itself
+ is codeck.
+ .
+ This package installs codeck and the Qiew viewers CodeDeck opens things in:
+ Marq for a turn's report, Dirq for diffs and comparisons, Jayq for JSON. Any
+ of the viewers can be removed on its own.

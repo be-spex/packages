@@ -13,4 +13,4 @@ jq -r '.[] | "\(.repo) \(.tagPrefix // "")"' repos.json | while read -r repo pre
          | .tag_name as \$tag | .assets[] | select(.name | endswith(\".deb\"))
          | \"$repo \(\$tag) \(.name) \(.updated_at)\""
 done
-echo "inputs $(cat repos.json keyring/* keys/* qiew/* scripts/* | sha256sum | cut -d' ' -f1)"
+echo "inputs $(cat repos.json keyring/* keys/* qiew/* codedeck/* scripts/* | sha256sum | cut -d' ' -f1)"

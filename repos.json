@@ -9,5 +9,6 @@
   { "repo": "bespex/Qiew", "tagPrefix": "maiqe-v", "path": "apps/maiqe", "packages": ["maiqe"] },
   { "repo": "bespex/Maillet",    "packages": ["maillet"] },
   { "repo": "bespex/HatRack",    "packages": ["hatrack"] },
-  { "repo": "bespex/PocketTray", "packages": ["pockettray"] }
+  { "repo": "bespex/PocketTray", "packages": ["pockettray"] },
+  { "repo": "bespex/CodeDeck",   "packages": ["codeck"] }
 ]

@@ -12,7 +12,9 @@ Add it once, then install and update the apps with `apt`. Setup instructions are
 | `maillet` | [bespex/Maillet](https://github.com/bespex/Maillet) |
 | `hatrack` | [bespex/HatRack](https://github.com/bespex/HatRack) (amd64, arm64) |
 | `pockettray` | [bespex/PocketTray](https://github.com/bespex/PocketTray) |
+| `codeck` | [bespex/CodeDeck](https://github.com/bespex/CodeDeck): the program |
 | `qiew` | this repository ([`qiew/`](qiew/)): metapackage that recommends every Qiew viewer, with `qiew-setup` |
+| `codedeck` | this repository ([`codedeck/`](codedeck/)): metapackage, `codeck` plus the viewers CodeDeck opens things in (Marq, Dirq, Jayq); built once `codeck` is released |
 | `be-spex-archive-keyring` | this repository: signing key and APT source |
 
 ## How it works
@@ -34,6 +36,10 @@ packages, adds the keyring package, writes the indices with `apt-ftparchive`, si
 - **Build locally:** `GNUPGHOME=<keyring with the secret key> OUT=/tmp/apt scripts/build.sh`
   (needs `gh`, `jq`, `dpkg-deb`, `apt-ftparchive`, `gpg`).
 - **Keyring package:** bump `keyring/VERSION` when the key or the source changes.
+- **codedeck metapackage:** the product's name for the whole set, the program is `codeck` (be spex
+  brand rules: a product with several parts has a metapackage with the product's name, the program
+  is named after its command). A viewer CodeDeck starts to use goes into `Recommends` in
+  [`codedeck/control`](codedeck/control), with a higher `Version`.
 - **qiew metapackage:** a new Qiew viewer goes into `Recommends` in [`qiew/control`](qiew/control)
   as well, together with a higher `Version` there, so `apt upgrade` brings it to everyone who has
   the set. The build stops if that list and the Qiew entries in `repos.json` differ.

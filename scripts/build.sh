@@ -6,8 +6,8 @@
 #   dists/stable/main/binary-{amd64,arm64}/Packages(.gz)
 #   be-spex-archive-keyring.{deb,gpg,asc}, index.html, state.txt
 #
-# Besides the app packages it builds two of its own: the keyring and the qiew
-# metapackage (qiew/).
+# Besides the app packages it builds its own: the keyring, the qiew metapackage
+# (qiew/) and the codedeck metapackage (codedeck/).
 #
 # Packages come from the newest $KEEP stable releases of each entry in
 # repos.json; only package names listed there are taken. A repository that
@@ -110,6 +110,30 @@ find "$root" -type d -exec chmod 755 {} +
 dpkg-deb --root-owner-group --build "$root" "$work/qiew.deb" >/dev/null
 add_to_pool "$work/qiew.deb"
 
+# 3b. The codedeck metapackage: the program codeck plus the viewers CodeDeck
+# opens things in. Built only once codeck itself is here, or apt could not
+# install it; the same for every viewer it recommends.
+codedeck_hint=""
+if compgen -G "$OUT/pool/main/c/codeck/*.deb" >/dev/null; then
+    echo "codedeck"
+    have=$(jq -r '.[].packages[]' repos.json)
+    for p in $(sed -n 's/^Recommends: //p' codedeck/control | tr ',' '\n' | awk '{print $1}'); do
+        if ! grep -qx "$p" <<<"$have"; then
+            echo "codedeck/control recommends $p, which repos.json does not list" >&2
+            exit 1
+        fi
+    done
+    root="$work/codedeck"
+    mkdir -p "$root/DEBIAN"
+    cp codedeck/control "$root/DEBIAN/control"
+    find "$root" -type d -exec chmod 755 {} +
+    dpkg-deb --root-owner-group --build "$root" "$work/codedeck.deb" >/dev/null
+    add_to_pool "$work/codedeck.deb"
+    codedeck_hint='<p>CodeDeck with the viewers it opens things in (Marq, Dirq, Jayq); the program alone is <code>codeck</code>:</p>\n  <pre>sudo apt install codedeck</pre>'
+else
+    echo "codedeck: skipped, codeck is not released yet"
+fi
+
 # 4. Indices and the signed Release file.
 dist="$OUT/dists/$SUITE"
 for arch in $ARCHS; do
@@ -144,7 +168,7 @@ rows=$(cd "$OUT" && apt-ftparchive packages pool 2>/dev/null |
         { name = ($1 in repo) ? "<a href=\"https://github.com/" repo[$1] "\">" $1 "</a>" : $1
           printf "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n", name, $2, $3, ($1 == prev ? "" : "latest")
           prev = $1 }')
-sed "s|@ROWS@|$(printf '%s' "$rows" | sed 's/[&|]/\\&/g' | tr '\n' '\r')|" scripts/index.html |
+sed "s|@ROWS@|$(printf '%s' "$rows" | sed 's/[&|]/\\&/g' | tr '\n' '\r')|; s|@CODEDECK@|$(printf '%b' "$codedeck_hint" | sed 's/[&|]/\\&/g' | tr '\n' '\r')|" scripts/index.html |
     tr '\r' '\n' > "$OUT/index.html"
 scripts/state.sh > "$OUT/state.txt"
 touch "$OUT/.nojekyll"
