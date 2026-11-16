@@ -45,8 +45,14 @@ jq -c '.[]' repos.json | while read -r entry; do
     repo=$(jq -r .repo <<<"$entry")
     prefix=$(jq -r '.tagPrefix // ""' <<<"$entry")
     echo "$repo $prefix"
-    gh api "repos/$repo/releases?per_page=100" --jq \
-        "[.[] | select(.draft | not) | select(.prerelease | not) | select(.tag_name | startswith(\"$prefix\"))] | .[:$KEEP][] | .tag_name" |
+    # A repository this workflow cannot read (still private) is skipped; the others go on
+    if ! tags=$(gh api "repos/$repo/releases?per_page=100" --jq \
+        "[.[] | select(.draft | not) | select(.prerelease | not) | select(.tag_name | startswith(\"$prefix\"))] | .[:$KEEP][] | .tag_name" 2>/dev/null); then
+        echo "  skipped: cannot read the releases of $repo"
+        continue
+    fi
+    [ -n "$tags" ] || continue
+    printf '%s\n' "$tags" |
     while read -r tag; do
         dl="$work/dl/$repo/$tag"
         mkdir -p "$dl"

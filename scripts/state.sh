@@ -8,9 +8,10 @@ cd "$(dirname "$0")/.."
 KEEP=${KEEP:-3}
 
 jq -r '.[] | "\(.repo) \(.tagPrefix // "")"' repos.json | while read -r repo prefix; do
+    # A repository this workflow cannot read (still private) is left out, not fatal: the others go on
     gh api "repos/$repo/releases?per_page=100" --jq \
         "[.[] | select(.draft | not) | select(.prerelease | not) | select(.tag_name | startswith(\"$prefix\"))] | .[:$KEEP][]
          | .tag_name as \$tag | .assets[] | select(.name | endswith(\".deb\"))
-         | \"$repo \(\$tag) \(.name) \(.updated_at)\""
+         | \"$repo \(\$tag) \(.name) \(.updated_at)\"" 2>/dev/null || echo "$repo $prefix unreadable"
 done
 echo "inputs $(cat repos.json keyring/* keys/* qiew/* codedeck/* scripts/* | sha256sum | cut -d' ' -f1)"
