@@ -7,7 +7,8 @@
 #   be-spex-archive-keyring.{deb,gpg,asc}, bespex.gpg, index.html, state.txt
 #
 # Besides the app packages it builds its own: the keyring, the qiew metapackage
-# (qiew/) and the codedeck metapackage (codedeck/).
+# (qiew/) and for CodeDeck either the transitional package codeck (codeck/) or,
+# until the first release named codedeck, the old metapackage (codedeck/).
 #
 # Packages come from the newest $KEEP stable releases of each entry in
 # repos.json; only package names listed there are taken. A repository that
@@ -32,7 +33,9 @@ mkdir -p "$OUT"
 add_to_pool() {
     local deb=$1 pkg ver arch dir
     pkg=$(dpkg-deb -f "$deb" Package)
+    # Pool file names leave out the epoch, as Debian's do
     ver=$(dpkg-deb -f "$deb" Version)
+    ver=${ver#*:}
     arch=$(dpkg-deb -f "$deb" Architecture)
     dir="$OUT/pool/main/${pkg:0:1}/$pkg"
     mkdir -p "$dir"
@@ -117,11 +120,21 @@ find "$root" -type d -exec chmod 755 {} +
 dpkg-deb --root-owner-group --build "$root" "$work/qiew.deb" >/dev/null
 add_to_pool "$work/qiew.deb"
 
-# 3b. The codedeck metapackage: the program codeck plus the viewers CodeDeck
-# opens things in. Built only once codeck itself is here, or apt could not
-# install it; the same for every viewer it recommends.
+# 3b. CodeDeck has one name everywhere (D26): its releases bring the package
+# codedeck (program plus Recommends). Once one is here, the transitional package
+# codeck 1.0 moves earlier installs to it. Until then the old metapackage
+# codedeck (Depends: codeck) is built as before.
 codedeck_hint=""
-if compgen -G "$OUT/pool/main/c/codeck/*.deb" >/dev/null; then
+if compgen -G "$OUT/pool/main/c/codedeck/codedeck_*_amd64.deb" >/dev/null; then
+    echo "codeck (transitional)"
+    root="$work/codeck"
+    mkdir -p "$root/DEBIAN"
+    cp codeck/control "$root/DEBIAN/control"
+    find "$root" -type d -exec chmod 755 {} +
+    dpkg-deb --root-owner-group --build "$root" "$work/codeck.deb" >/dev/null
+    add_to_pool "$work/codeck.deb"
+    codedeck_hint='<p>CodeDeck, with the viewers it opens things in (Marq, Dirq, Jayq):</p>\n  <pre>sudo apt install codedeck</pre>'
+elif compgen -G "$OUT/pool/main/c/codeck/*.deb" >/dev/null; then
     echo "codedeck"
     have=$(jq -r '.[].packages[]' repos.json)
     for p in $(sed -n 's/^Recommends: //p' codedeck/control | tr ',' '\n' | awk '{print $1}'); do

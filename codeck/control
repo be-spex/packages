@@ -1,0 +1,13 @@
+Package: codeck
+Version: 1.0
+Architecture: all
+Maintainer: Bert Speckels <skrrytch@speckels.net>
+Section: oldlibs
+Priority: optional
+Homepage: https://github.com/bespex/CodeDeck
+Depends: codedeck
+Description: CodeDeck under its earlier name (transitional package)
+ The program and its command are called codedeck now; the package
+ codedeck brings it with the viewers it recommends. This package only
+ pulls it in and can be removed afterwards. The command codeck stays
+ available as a link to codedeck.
