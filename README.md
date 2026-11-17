@@ -4,7 +4,7 @@
 
 Add it once, then install and update the apps with `apt`. Setup instructions are on the page.
 
-**Website:** https://bespex.github.io/packages/ · part of [be spex](https://bespex.github.io) – small, focused apps for Linux
+**Website:** https://bespex.run/apt/ · part of [be spex](https://bespex.github.io) – small, focused apps for Linux
 
 | Package | Source |
 |---|---|

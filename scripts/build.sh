@@ -4,7 +4,7 @@
 #   pool/main/<p>/<package>/<package>_<version>_<arch>.deb
 #   dists/stable/{InRelease,Release,Release.gpg}
 #   dists/stable/main/binary-{amd64,arm64}/Packages(.gz)
-#   be-spex-archive-keyring.{deb,gpg,asc}, index.html, state.txt
+#   be-spex-archive-keyring.{deb,gpg,asc}, bespex.gpg, index.html, state.txt
 #
 # Besides the app packages it builds its own: the keyring, the qiew metapackage
 # (qiew/) and the codedeck metapackage (codedeck/).
@@ -84,9 +84,9 @@ Architecture: all
 Maintainer: Bert Speckels <skrrytch@speckels.net>
 Section: misc
 Priority: optional
-Homepage: https://bespex.github.io/packages/
+Homepage: https://bespex.run/apt/
 Description: APT source and signing key of the be-spex packages
- Adds https://bespex.github.io/packages to APT and installs the key that
+ Adds https://bespex.run/apt to APT and installs the key that
  signs it, so the be-spex applications (Marq, Xaq, Maillet, HatRack,
  PocketTray) can be installed and updated with apt.
 EOF
@@ -96,6 +96,7 @@ dpkg-deb --root-owner-group --build "$root" "$work/$NAME.deb" >/dev/null
 add_to_pool "$work/$NAME.deb"
 cp "$work/$NAME.deb" "$OUT/$NAME.deb"
 cp "$root/usr/share/keyrings/$NAME.gpg" "$OUT/$NAME.gpg"
+cp "$OUT/$NAME.gpg" "$OUT/bespex.gpg"   # short alias of the binary key (APT before 2.4 needs this format)
 cp keys/$NAME.asc "$OUT/$NAME.asc"
 
 # 3. The qiew metapackage: recommends every Qiew viewer, brings qiew-setup.

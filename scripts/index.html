@@ -29,7 +29,7 @@
   <p class="lead">APT repository for the be-spex applications on current Debian, Ubuntu and Linux Mint (amd64; HatRack also arm64).</p>
 
   <h2>Set up once</h2>
-  <pre>curl -fsSLO https://bespex.github.io/packages/be-spex-archive-keyring.deb
+  <pre>curl -fsSLO https://bespex.run/apt/be-spex-archive-keyring.deb
 sudo apt install ./be-spex-archive-keyring.deb
 sudo apt update</pre>
   <p>The package installs the signing key to <code>/usr/share/keyrings/</code> and the source
@@ -43,17 +43,20 @@ qiew-setup</pre>
   @CODEDECK@
 
   <h2>Manual setup</h2>
-  <pre>curl -fsSL https://bespex.github.io/packages/be-spex-archive-keyring.gpg \
+  <pre>curl -fsSL https://bespex.run/apt/be-spex-archive-keyring.gpg \
   | sudo tee /usr/share/keyrings/be-spex-archive-keyring.gpg &gt;/dev/null
 sudo tee /etc/apt/sources.list.d/be-spex.sources &lt;&lt;'EOF'
 Types: deb
-URIs: https://bespex.github.io/packages
+URIs: https://bespex.run/apt
 Suites: stable
 Components: main
 Architectures: amd64 arm64
 Signed-By: /usr/share/keyrings/be-spex-archive-keyring.gpg
 EOF
 sudo apt update</pre>
+
+  <p>The same key as ASCII for <code>rpm</code>/<code>dnf</code> and other tools:
+    <a href="https://bespex.run/key.asc">bespex.run/key.asc</a>; binary for APT: <a href="bespex.gpg">bespex.gpg</a>.</p>
 
   <h2>Packages</h2>
   <table>

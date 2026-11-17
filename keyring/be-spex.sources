@@ -1,5 +1,5 @@
 Types: deb
-URIs: https://bespex.github.io/packages
+URIs: https://bespex.run/apt
 Suites: stable
 Components: main
 Architectures: amd64 arm64
