@@ -10,5 +10,6 @@
   { "repo": "bespex/Maillet",    "packages": ["maillet"] },
   { "repo": "bespex/HatRack",    "packages": ["hatrack"] },
   { "repo": "bespex/PocketTray", "packages": ["pockettray"] },
-  { "repo": "bespex/CodeDeck",   "packages": ["codedeck", "codeck"] }
+  { "repo": "bespex/CodeDeck",   "packages": ["codedeck", "codeck"] },
+  { "repo": "bespex/Pictorix",   "packages": ["pictorix"] }
 ]

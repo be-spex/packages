@@ -12,6 +12,7 @@ Add it once, then install and update the apps with `apt`. Setup instructions are
 | `maillet` | [bespex/Maillet](https://github.com/bespex/Maillet) |
 | `hatrack` | [bespex/HatRack](https://github.com/bespex/HatRack) (amd64, arm64) |
 | `pockettray` | [bespex/PocketTray](https://github.com/bespex/PocketTray) |
+| `pictorix` | [bespex/Pictorix](https://github.com/bespex/Pictorix) |
 | `codedeck` | [bespex/CodeDeck](https://github.com/bespex/CodeDeck): the program, recommends Marq, Dirq, Jayq |
 | `qiew` | this repository ([`qiew/`](qiew/)): metapackage that recommends every Qiew viewer, with `qiew-setup` |
 | `codeck` | this repository ([`codeck/`](codeck/)): transitional package for CodeDeck's earlier name, depends on `codedeck`; built once a release named `codedeck` exists (until then the old metapackage [`codedeck/`](codedeck/) is built) |
